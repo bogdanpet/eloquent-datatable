@@ -184,6 +184,26 @@ class Datatable
     }
 
     /**
+     * Generate pagination links for paginated tables.
+     *
+     * @param null $class
+     *
+     * @return null|string
+     */
+    public function pagination($class = null)
+    {
+        if ($this->data instanceof LengthAwarePaginator) {
+            if ($class != null) {
+                return '<div class="' . $class . '">' . $this->data->links() . '</div>';
+            }
+
+            return '<div>' . $this->data->links() . '</div>';
+        }
+
+        return null;
+    }
+
+    /**
      * Generate <th> element with optional class attribute for table head.
      *
      * @param $data
