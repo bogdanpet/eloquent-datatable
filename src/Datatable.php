@@ -289,4 +289,24 @@ class Datatable
 
         return $result;
     }
+
+    /**
+     * Custom method for 'row_num' column heading.
+     *
+     * @return string
+     */
+    public function thRowNum()
+    {
+        return $this->th('#', 'small');
+    }
+
+    /**
+     * Custom method for 'row_num' column cells.
+     *
+     * @return string
+     */
+    public function tdRowNum()
+    {
+        return $this->td($this->increment, 'small');
+    }
 }
