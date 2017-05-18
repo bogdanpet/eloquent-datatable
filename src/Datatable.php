@@ -28,6 +28,21 @@ class Datatable
     protected $increment = 0;
 
     /**
+     * Static instance of Datatable class
+     *
+     * @var Datatable
+     */
+    protected static $instance;
+
+    /**
+     * Datatable constructor.
+     */
+    public function __construct()
+    {
+        static::$instance = $this;
+    }
+
+    /**
      * $data property setter.
      *
      * @param \IteratorAggregate $data
@@ -254,5 +269,24 @@ class Datatable
         }
 
         return '<td>' . $data . '</td>' . PHP_EOL;
+    }
+
+    /**
+     * Static execution of Datatable
+     *
+     * @param \IteratorAggregate $data
+     * @param array $columns
+     *
+     * @return string
+     */
+    public static function make(\IteratorAggregate $data, array $columns, array $actions = [])
+    {
+        static::$instance->setData($data);
+        static::$instance->setColumns($columns);
+        static::$instance->setActions($actions);
+
+        $result = static::$instance->show();
+
+        return $result;
     }
 }
