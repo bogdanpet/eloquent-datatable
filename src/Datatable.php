@@ -3,11 +3,25 @@
 class Datatable
 {
     /**
+     * Main data for showing in table.
+     *
+     * @var \IteratorAggregate
+     */
+    protected $data;
+
+    /**
      * Array of columns to be displayed in table.
      *
      * @var array
      */
     protected $columns = [];
+
+    /**
+     * Row increment property, necessary for proper row number on paginated tables.
+     *
+     * @var int
+     */
+    protected $increment = 0;
 
     /**
      * $columns property setter.
@@ -72,6 +86,46 @@ class Datatable
     }
 
     /**
+     * Generate table body.
+     *
+     * @return string
+     */
+    public function tableBody()
+    {
+
+        // Set increment property
+        $this->setIncrement();
+
+        $result = '<tbody>' . PHP_EOL;
+
+        // Create table row for each Eloquent Collection item
+        foreach ($this->data as $model) {
+
+            // Increase increment value
+            $this->increment ++;
+
+            $result .= '<tr>' . PHP_EOL;
+
+            // Create table cell for each column
+            foreach ($this->columns as $column) {
+                $method = 'td' . studly_case($column);
+
+                if (method_exists($this, $method)) {
+                    $result .= call_user_func([ $this, $method ], $model);
+                } else {
+                    $result .= $this->td($model->$column);
+                }
+            }
+
+            $result .= '</tr>' . PHP_EOL;
+        }
+
+        $result .= '</tbody>';
+
+        return $result;
+    }
+
+    /**
      * Generate closing </table> tag.
      *
      * @return string
@@ -96,5 +150,22 @@ class Datatable
         }
 
         return '<th>' . ucfirst($data) . '</th>' . PHP_EOL;
+    }
+
+    /**
+     * Generate <td> element with optional class attribute for table body.
+     *
+     * @param $data
+     * @param string $class
+     *
+     * @return string
+     */
+    protected function td($data, $class = null)
+    {
+        if ($class != null) {
+            return '<td class="' . $class . '">' . $data . '</td>' . PHP_EOL;
+        }
+
+        return '<td>' . $data . '</td>' . PHP_EOL;
     }
 }
