@@ -1,5 +1,7 @@
 <?php namespace Bogdanpet\Datatables;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
 class Datatable
 {
     /**
@@ -24,6 +26,16 @@ class Datatable
     protected $increment = 0;
 
     /**
+     * $data property setter.
+     *
+     * @param \IteratorAggregate $data
+     */
+    public function setData(\IteratorAggregate $data)
+    {
+        $this->data = $data;
+    }
+
+    /**
      * $columns property setter.
      *
      * @param array $columns
@@ -31,6 +43,16 @@ class Datatable
     public function setColumns(array $columns)
     {
         $this->columns = $columns;
+    }
+
+    /**
+     * $increment property setter.
+     */
+    protected function setIncrement()
+    {
+        if ($this->data instanceof LengthAwarePaginator) {
+            $this->increment = ($this->data->currentPage() - 1) * $this->data->perPage();
+        }
     }
 
     /**
