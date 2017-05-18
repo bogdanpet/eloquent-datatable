@@ -148,6 +148,32 @@ class Datatable
     }
 
     /**
+     * Generate table footer.
+     * Contains data counter.
+     *
+     * @return string
+     */
+    public function tableFoot()
+    {
+        if ($this->data instanceof LengthAwarePaginator) {
+            $total = $this->data->total();
+            $min   = 1 + ($this->data->currentPage() - 1) * $this->data->perPage();
+            $max   = $this->data->currentPage() * $this->data->perPage();
+            if ($max > $total) {
+                $max = $total;
+            }
+        } else {
+            $total = $this->data->count();
+            $min   = 1;
+            $max   = $this->data->count();
+        }
+
+        $result = '<tfoot><tr class="active"><td colspan="100%" class="text-center">' . $min . ' - ' . $max . ' / ' . $total . '</td></tr></tfoot>';
+
+        return $result;
+    }
+
+    /**
      * Generate closing </table> tag.
      *
      * @return string
