@@ -56,6 +56,23 @@ class Datatable
     }
 
     /**
+     * Generate complete table
+     *
+     * @return string
+     */
+    public function show()
+    {
+        $result = $this->open() . PHP_EOL;
+        $result .= $this->tableHead() . PHP_EOL;
+        $result .= $this->tableBody() . PHP_EOL;
+        $result .= $this->tableFoot() . PHP_EOL;
+        $result .= $this->close() . PHP_EOL;
+        $result .= $this->pagination();
+
+        return $result;
+    }
+
+    /**
      * Generate opening <table> tag with attributes
      *
      * @param array $attributes
