@@ -1,0 +1,12 @@
+{
+    "name": "bogdanpet/eloquent-datatables",
+    "type": "package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "bogdanpet",
+            "email": "bgdnptkvc@gmail.com"
+        }
+    ],
+    "require": {}
+}
