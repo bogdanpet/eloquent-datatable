@@ -4,6 +4,8 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class Datatable
 {
+    use DatatableActions;
+
     /**
      * Main data for showing in table.
      *
