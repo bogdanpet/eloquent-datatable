@@ -1,7 +1,8 @@
 ## Description
 PHP class for displaying Eloquent collections as HTML table. Tested in Laravel, but should work in any project using eloquent as standalone package.
 ## Installation
-Download and require Datatable.php and DatatableActions.php
+Download and require Datatable.php and DatatableActions.php.
+
 Composer installation comming soon.
 ## Usage
 #### Basic usage
