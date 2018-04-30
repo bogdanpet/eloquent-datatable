@@ -8,19 +8,28 @@ Composer installation comming soon.
 #### Basic usage
 For example, let's say that we have collection of users we want to show as a table. Creating collection and sharing it to your view should look like this in Laravel.
 ```
-$users = User::all();
+public function showUsers() {
+    $users = User::all();
 
-return view('users', compact('users'));
+    return view('users', compact('users'));
+}
 ```
-Now, in your view file, create new instance of Datatable class, and set main data and columns to be displayed in a table.
+Now, if you are intending to show this collection as HTML table you can do this simply with Datatable class. You can either create new instance or take advantage of laravel's dependency injection.
 ```
-<?php 
-$datatable = new \Bogdanpet\Datatables\Datatable();
-$datatable->setData($users);
-$datatable->setColumns(['id, 'name', 'email']);
-?>
+use Bogdanpet\Datatables\Datatable;
+
+...
+
+public function showUsers(Datatable $datatable) {
+    $users = User::all();
+    
+    $datatable->setData($users);
+    $datatable->setColumns(['id, 'name', 'email']);
+
+    return view('users', compact('datatable'));
+}
 ```
-Then just put table where you want it using show() method.
+Then, in your blade template, just put table where you want it using show() method.
 ```
 <div class="table-container">
     {!! $datatable->show(); !!}
@@ -38,7 +47,7 @@ If you need to customize table more, you can use separate methods instead of sho
 </div>
 ```
 #### Static usage
-Instead of creating new instance and setting data and columns, you can create table directly with static method make().
+For quick building of datatable in your view, if you already have access to collection, you can create table directly with static method make().
 ```
 <div class="table-container">
     {!! \Bogdanpet\Datatables\Datatable::make($users, ['id, 'name', 'email'] !!}
@@ -53,8 +62,8 @@ $datatable->setActions([
     [ 'Delete', '/user/delete/{id}', ['class' => 'table-action'] ]
 ]);
 ```
-As you can see, actions are set as array of arrays, each array contains link text as first item, link href as second and optional third item which is array of link attributes.
-{id} is wildcard similar like one in laravel routing system, and will be replaced with corresponding user's id from the database. You can use wildcard for any database column like {name} or {email}.
+As you can see, actions are set as array of arrays, each array contains link text as first item, route as second and optional third item which is array of link attributes.
+{id} is wildcard for laravel routing system, and will be replaced with corresponding user's id from the database. You can use wildcard for any database column like {name} or {email}.
 Example above will generate two links for each user in actions column.
 ```
 <a href="/user/edit/23" class="table-action">Edit</a>
@@ -87,11 +96,19 @@ class UsersDatatable extends \Bogdanpet\Datatables\Datatable
 ```
 After class is created, it can be used same as main class. Just no need for defining columns and actions. Main data can also be defined, but it is not recommended because of its dynamic behavior.
 ```
-<?php
-$users_datatable = new \App\Datatables\UsersDatatable();
-$users_datatable->setData($users);
-?>
+use App\Datatables\UsersDatatable;
+
+...
+
+public function showUsers(UsersDatatable $users_datatable) {
+    $users = User::all();
+    
+    $users_datatable->setData($users);
+
+    return view('users', compact('users_datatable'));
+}
 ```
+And, same as in first example, just place the datatable where you want to.
 ```
 <div class="table-container">
     {!! $users_datatable->show(); !!}
