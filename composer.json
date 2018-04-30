@@ -3,7 +3,7 @@
     "type": "package",
     "license": "MIT",
     "version": 1.0,
-    "minimum-stablility": "dev",
+    "minimum-stablility": "stable",
     "authors": [
         {
             "name": "bogdanpet",
