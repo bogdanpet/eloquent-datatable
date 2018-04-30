@@ -76,10 +76,14 @@ For complete control over your datatable you can extend main Datatable class. Fo
 
 class UsersDatatable extends \Bogdanpet\Datatables\Datatable
 {
-    // Add this line if you want to use actions.
+    /**
+     * DatatableActions trait allows use of actions.
+     */
     use \Bogdanpet\Datatables\DatatableActions;
 
-    // Set columns
+    /**
+     * Define columns to be displayed by datatable.
+     */
     protected $columns = [
         'row_num',
         'name',
@@ -87,7 +91,9 @@ class UsersDatatable extends \Bogdanpet\Datatables\Datatable
         'actions'
     ];
     
-    // Set actions
+    /**
+     * Define datatable actions.
+     */
     protected $actions = [
         [ 'Edit', '/user/edit/{id}', ['class' => 'table-action'] ],
         [ 'Delete', '/user/delete/{id}', ['class' => 'table-action'] ]
@@ -120,10 +126,14 @@ And, same as in first example, just place the datatable where you want to.
 
 class UsersDatatable extends \Bogdanpet\Datatables\Datatable
 {
-    // Add this line if you want to use actions.
+    /**
+     * DatatableActions trait allows use of actions.
+     */
     use \Bogdanpet\Datatables\DatatableActions;
 
-    // Set columns
+    /**
+     * Define columns to be displayed by datatable.
+     */
     protected $columns = [
         'row_num',
         'name',
@@ -132,34 +142,42 @@ class UsersDatatable extends \Bogdanpet\Datatables\Datatable
         'actions'
     ];
     
-    // Set actions
+    /**
+     * Define datatable actions.
+     */
     protected $actions = [
         [ 'Edit', '/user/edit/{id}', ['class' => 'table-action'] ],
         [ 'Delete', '/user/delete/{id}', ['class' => 'table-action'] ]
     ]
     
-    // Column headings.
-    // Create method which name starts wit th and contains name of a column in studly case.
-    
+    /**
+     * Tweaks the heading for column 'name'
+     */
     public function thName()
     {
         return $this->th('Name', 'table-heading-large'); // th() generate <th> element, parameters are content, and optional classes.
     }
     
+    /**
+     * Tweaks the heading for column 'registered_at'
+     */
     public function thRegisteredAt()
     {
         return $this->th('Registered', 'table-heading-small'); // th() generate <th> element, parameters are content, and optional classes.
     }
     
-    // Column cells
-    // Create method which name starts wit td and contains name of a column in studly case. td methods accepting eloquent model as parameter.
-    
+    /**
+     * Tweaks the display of 'name' name column
+     */
     public function tdName($model)
     {
         // Customize 'name' column to display names with capitalized letters.
         return $this->td( ucwords($model->name), 'table-cell-large'); // td() generate <td> element, parameters are content, and optional classes.
     }
     
+    /**
+     * Tweaks the display of 'registered_at' name column
+     */
     public function tdRegisteredAt($model)
     {
         // 'registered_at' now displays user's creation date and time in human readable format.
